@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  #--------------------------------------------------------------------------#
+  #--------------------------------------------------------------------------#
+  #                                 M Y S Q L                                #
+  #--------------------------------------------------------------------------#
+  #--------------------------------------------------------------------------#
+  database:
+    image: mysql:latest
+    command: ["mysqld", "--mysql-native-password=ON"]
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+
+  #--------------------------------------------------------------------------#
+  #--------------------------------------------------------------------------#
+  #                            P H P M Y A D M I N                           #
+  #--------------------------------------------------------------------------#
+  #--------------------------------------------------------------------------#
+  phpmyadmin:
+    image: phpmyadmin:latest
+    links:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+    ports:
+      - ${PHPMYADMIN_PORT}:80
