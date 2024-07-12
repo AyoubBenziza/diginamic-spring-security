@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @author AyoubBenziza
  */
 @RestController
-@RequestMapping("/cities")
+@RequestMapping("/api/cities")
 public class CityController {
 
     /**

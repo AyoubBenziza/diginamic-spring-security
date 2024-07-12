@@ -34,3 +34,6 @@ build/
 
 ### MYSQL ###
 mysql/
+
+### Spring Boot ###
+secret.properties

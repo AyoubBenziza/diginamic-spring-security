@@ -11,6 +11,7 @@ import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
@@ -152,6 +153,18 @@ public class DepartmentService {
     }
 
     /**
+     * Create a department
+     * @param department the department
+     * @return the department
+     * @throws NotFoundException if the department is not found
+     */
+    public Department create(Department department) throws NotFoundException {
+        addName(department, department.getCode()); // Set the department name using the addName method
+        departmentRepository.save(department); // Save the department to the database
+        return department;
+    }
+
+    /**
      * Add a list of cities to a department
      * @param code the code of the department
      * @param cities the list of cities
@@ -165,29 +178,6 @@ public class DepartmentService {
         cities.forEach(city -> city.setDepartment(department));
         cityRepository.saveAll(cities);
         return department;
-    }
-
-    /**
-     * Update a department
-     * @param code the code of the department
-     * @param department the department
-     */
-    public Department update(String code, Department department) throws NotFoundException {
-        Department departmentToUpdate = departmentRepository.findByCode(code);
-        if (departmentToUpdate == null) {
-            throw new NotFoundException("Department with code " + code + " not found");
-        }
-        departmentToUpdate.setCode(department.getCode());
-        departmentToUpdate.setCities(department.getCities());
-        departmentRepository.save(departmentToUpdate);
-        return departmentToUpdate;
-    }
-
-    public void delete(String code) throws NotFoundException {
-        if (!departmentRepository.existsByCode(code)) {
-            throw new NotFoundException("Department with code " + code + " not found");
-        }
-        departmentRepository.deleteByCode(code);
     }
 
     /**
@@ -218,14 +208,32 @@ public class DepartmentService {
     }
 
     /**
-     * Create a department
+     * Update a department
+     * @param code the code of the department
      * @param department the department
-     * @return the department
-     * @throws NotFoundException if the department is not found
      */
-    public Department create(Department department) throws NotFoundException {
-        addName(department, department.getCode()); // Set the department name using the addName method
-        departmentRepository.save(department); // Save the department to the database
-        return department;
+    public Department update(String code, Department department) throws NotFoundException {
+        Department departmentToUpdate = departmentRepository.findByCode(code);
+        if (departmentToUpdate == null) {
+            throw new NotFoundException("Department with code " + code + " not found");
+        }
+        departmentToUpdate.setCode(department.getCode());
+        departmentToUpdate.setCities(department.getCities());
+        departmentRepository.save(departmentToUpdate);
+        return departmentToUpdate;
+    }
+
+    @Transactional
+    public void delete(String code) throws NotFoundException {
+        Department department = departmentRepository.findByCode(code);
+        if (department == null) {
+            throw new NotFoundException("Department with code " + code + " not found");
+        }
+        // Assuming cities are lazily loaded, explicitly fetch them or ensure they are loaded
+        Set<City> cities = department.getCities();
+        if (cities != null) {
+            cityRepository.deleteAll(cities); // Delete all cities associated with the department
+        }
+        departmentRepository.delete(department); // Now, delete the department
     }
 }

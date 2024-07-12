@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author AyoubBenziza
  */
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("/api/hello")
 public class HelloController {
 
     /**

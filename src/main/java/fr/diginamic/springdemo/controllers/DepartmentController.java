@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  * @author AyoubBenziza
  */
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/api/departments")
 public class DepartmentController {
 
     /**

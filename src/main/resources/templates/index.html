@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html lang="fr"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Accueil DigiHello</title>
+	<meta charset="UTF-8">
+	<title>Accueil DigiHello</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/index.css">
+	<style>
+		body { padding-top: 20px; }
+		.container { max-width: 960px; }
+		.card { margin-bottom: 20px; }
+	</style>
 </head>
 <body>
-<h1>Accueil DigiHello</h1>
 
-  	<a th:href="@{/townList}">Liste des villes et départements...</a>
-  	
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#">DigiHello</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/towns}">Liste des villes</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/departments}">Liste des départements</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" th:href="@{/logout}">Se déconnecter</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Accueil DigiHello</h1>
+			<p class="card-text">Bienvenue sur la page d'accueil de DigiHello. Utilisez la barre de navigation pour accéder aux différentes sections.</p>
+		</div>
+	</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
