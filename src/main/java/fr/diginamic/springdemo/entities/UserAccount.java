@@ -2,14 +2,16 @@ package fr.diginamic.springdemo.entities;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
 public class UserAccount {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
@@ -20,10 +22,10 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public UserAccount(String username, String password, List<GrantedAuthority> authorities) {
+    public UserAccount(String username, String password, String... authorities) {
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
+        this.authorities = Arrays.stream(authorities).map(SimpleGrantedAuthority::new).map(GrantedAuthority.class::cast).toList();
     }
 
     public Long getId() {

@@ -1,15 +1,17 @@
 package fr.diginamic.springdemo.config;
 
+import fr.diginamic.springdemo.entities.UserAccount;
+import fr.diginamic.springdemo.mappers.UserMapper;
+import fr.diginamic.springdemo.repositories.UserAccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -17,11 +19,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/js/**"),new AntPathRequestMatcher("/login")).permitAll()
-                                .anyRequest().authenticated()
+        return http
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/login","/register").permitAll()
+                                .requestMatchers("/","/logout","/towns","/departments").authenticated()
+                                .requestMatchers("/towns/delete/**","/departments/delete/**").hasRole("ADMIN")
+                                .anyRequest().denyAll()
                 )
                 .formLogin(formLogin ->
                         formLogin
@@ -31,28 +36,25 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout") // Specify the logout URL
                         .logoutSuccessUrl("/login") // Specify the logout success URL
-                        .permitAll()
                         .invalidateHttpSession(true) // Invalidate session
                         .deleteCookies("JSESSIONID") // Delete cookies
-                );
-        return http.build();
+                )
+                .build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("pw")
-                        .roles("USER")
-                        .build();
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("pw")
-                        .roles("ADMIN")
-                        .build();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        return new InMemoryUserDetailsManager(user, admin);
+    @Bean
+    public UserDetailsService userDetailsService(UserAccountRepository userAccountRepository) {
+        return username -> {
+            UserAccount user = userAccountRepository.findByUsername(username);
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found with username: " + username);
+            }
+            return UserMapper.map(user);
+        };
     }
 }

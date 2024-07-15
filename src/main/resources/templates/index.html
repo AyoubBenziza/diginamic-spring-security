@@ -1,49 +1,37 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>Accueil DigiHello</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/index.css">
-	<style>
-		body { padding-top: 20px; }
-		.container { max-width: 960px; }
-		.card { margin-bottom: 20px; }
-	</style>
-</head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#">DigiHello</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/towns}">Liste des villes</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/departments}">Liste des départements</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/logout}">Se déconnecter</a>
-			</li>
-		</ul>
-	</div>
-</nav>
-
-<div class="container">
-	<div class="card">
-		<div class="card-body">
-			<h1 class="card-title">Accueil DigiHello</h1>
-			<p class="card-text">Bienvenue sur la page d'accueil de DigiHello. Utilisez la barre de navigation pour accéder aux différentes sections.</p>
-		</div>
-	</div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+<html lang="fr" class="m-0 p-0">
+	<head>
+		<meta charset="UTF-8">
+		<title>App Recensement</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="bg-gray-100 m-0 p-0">
+		<nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6 m-0">
+		 	<div class="flex items-center flex-shrink-0 text-white mr-6">
+		  		<span class="font-semibold text-xl tracking-tight" th:text="${auth.getName()}">Username</span>
+		 	</div>
+		 	<div class="block lg:hidden">
+		  		<button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+		   			<svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+		  		</button>
+		 	</div>
+		 	<div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+		  		<div class="text-sm lg:flex-grow">
+		   			<a th:href="@{/towns}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+						Liste des villes
+		   			</a>
+		   			<a th:href="@{/departments}" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+						Liste des départements
+		   			</a>
+		  		</div>
+		  		<div>
+					<a th:href="@{/logout}" class="block lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+						</svg>
+					</a>
+		  		</div>
+		 	</div>
+		</nav>
+	</body>
 </html>

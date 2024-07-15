@@ -1,4 +1,4 @@
-package fr.diginamic.springdemo.views;
+package fr.diginamic.springdemo.controllers.views;
 
 import fr.diginamic.springdemo.exceptions.NotFoundException;
 import fr.diginamic.springdemo.services.DepartmentService;

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Logged Out</title>
-    <link rel="stylesheet" href="/css/auth/logout.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="logout-container">
-        <h1>You have been logged out</h1>
-        <p>Thank you for using our application. Click below to log in again.</p>
-        <a href="/login" class="login-button">Log In</a>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="text-center">
+        <h1 class="text-2xl font-bold mb-4">You have been logged out</h1>
+        <p class="mb-6">Thank you for using our application. Click below to log in again.</p>
+        <a th:href="@{/login}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Log In</a>
     </div>
 </body>
 </html>
