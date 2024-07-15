@@ -1,5 +1,6 @@
 package fr.diginamic.springdemo.controllers.views;
 
+import fr.diginamic.springdemo.exceptions.UsernameExistsException;
 import fr.diginamic.springdemo.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,7 @@ public class AuthViewController {
     public String registerPost(@RequestParam("username") String username, @RequestParam("password") String password, RedirectAttributes redirectAttributes) {
         try {
             userAccountService.registerUser(username, password);
-        } catch (Exception e) {
+        } catch (UsernameExistsException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
             return "redirect:/register";
         }

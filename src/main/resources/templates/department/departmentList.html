@@ -7,27 +7,30 @@
 </head>
 <body class="bg-gray-100 flex flex-col h-screen">
     <div th:replace="layout :: navbar"></div>
-    <section th:fragment="content">
-        <div class="container mx-auto px-4 flex-1 my-4">
+    <section th:fragment="content" class="flex-1 overflow-auto my-4">
+        <div class="container mx-auto px-4 my-4 h-4/5">
             <div class="relative shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="py-3 px-6">Code</th>
-                        <th scope="col" class="py-3 px-6">Département</th>
-                        <th scope="col" class="py-3 px-6">Population</th>
-                        <th scope="col" class="py-3 px-6">Actions</th>
-                    </tr>
+                    <thead class="sticky top-0 z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">Code</th>
+                            <th scope="col" class="py-3 px-6">Département</th>
+                            <th scope="col" class="py-3 px-6">Population</th>
+                            <th scope="col" class="py-3 px-6">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="department:${departments}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td th:text="${department.code}" class="py-4 px-6"></td>
-                        <td th:text="${department.name}" class="py-4 px-6"></td>
-                        <td th:text="${department.population}" class="py-4 px-6"></td>
-                        <td class="py-4 px-6">
-                            <a th:href="@{${requestURI} + '/delete/' + ${department.code}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                        </td>
-                    </tr>
+                        <tr th:each="department:${departments}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td th:text="${department.code}" class="py-4 px-6"></td>
+                            <td th:text="${department.name}" class="py-4 px-6"></td>
+                            <td th:text="${department.population}" class="py-4 px-6"></td>
+                            <td class="py-4 px-6">
+                                <a th:href="@{${requestURI} + '/delete/' + ${department.code}}" class="font-medium text-red-600 hover:text-red-700 hover:underline">Delete</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(departments)}">
+                            <td colspan="4" class="text-center py-4 px-6">No departments available</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

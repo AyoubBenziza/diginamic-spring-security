@@ -1,6 +1,7 @@
 package fr.diginamic.springdemo.services;
 
 import fr.diginamic.springdemo.entities.UserAccount;
+import fr.diginamic.springdemo.exceptions.UsernameExistsException;
 import fr.diginamic.springdemo.repositories.UserAccountRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,11 @@ public class UserAccountService {
         userAccountRepository.delete(user);
     }
 
-    public UserAccount registerUser(String username, String password) {
+    public void registerUser(String username, String password) {
         if (userAccountRepository.findByUsername(username) != null) {
-            throw new RuntimeException("There is already an account with that username: " + username);
+            throw new UsernameExistsException("There is already an account with that username: " + username);
         }
         UserAccount newUser = new UserAccount(username, passwordEncoder.encode(password), "ROLE_USER");
-        return userAccountRepository.save(newUser);
+        userAccountRepository.save(newUser);
     }
 }
