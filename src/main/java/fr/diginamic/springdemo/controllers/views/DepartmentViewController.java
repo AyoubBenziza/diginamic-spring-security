@@ -3,6 +3,7 @@ package fr.diginamic.springdemo.controllers.views;
 import fr.diginamic.springdemo.exceptions.NotFoundException;
 import fr.diginamic.springdemo.services.DepartmentService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,11 @@ public class DepartmentViewController {
     }
 
     @GetMapping("/departments")
-    public String departmentList(Model model, HttpServletRequest request) {
+    public String departmentList(Model model, Authentication auth, HttpServletRequest request) {
         try {
             model.addAttribute("departments", departmentService.getDepartments());
             model.addAttribute("requestURI", request.getRequestURI());
+            model.addAttribute("auth", auth);
         } catch (NotFoundException e) {
             model.addAttribute("errorMessage", "No departments found");
         }
