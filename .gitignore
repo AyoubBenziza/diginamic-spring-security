@@ -37,3 +37,5 @@ mysql/
 
 ### Spring Boot ###
 secret.properties
+recensement.mv.db
+recensement.trace.db
